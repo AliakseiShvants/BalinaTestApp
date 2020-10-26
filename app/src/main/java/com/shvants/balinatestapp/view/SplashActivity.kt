@@ -1,4 +1,4 @@
-package com.shvants.balinatestapp
+package com.shvants.balinatestapp.view
 
 import android.content.Intent
 import android.os.Bundle

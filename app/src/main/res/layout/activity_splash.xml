@@ -6,7 +6,7 @@
     android:background="@color/grey_200"
     android:gravity="center_vertical"
     android:orientation="vertical"
-    tools:context=".SplashActivity">
+    tools:context=".view.SplashActivity">
 
     <ImageView
         android:layout_width="wrap_content"

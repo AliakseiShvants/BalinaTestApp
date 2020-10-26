@@ -43,4 +43,6 @@ dependencies {
     implementation(Libs.constraintLayout)
     implementation(Libs.coreKtx)
     implementation(Libs.material)
+    implementation(Libs.navigationFragment)
+    implementation(Libs.navigationUi)
 }

@@ -27,6 +27,8 @@ object Libs {
     const val navigationFragment =
         "androidx.navigation:navigation-fragment-ktx:${Version.navigation}"
     const val navigationUi = "androidx.navigation:navigation-ui-ktx:${Version.navigation}"
+    const val viewBinding =
+        "com.kirich1409.viewbindingpropertydelegate:viewbindingpropertydelegate:${Version.viewBindingDelegates}"
 }
 
 object Version {
@@ -39,4 +41,5 @@ object Version {
     const val kotlin = "1.4.10"
     const val material = "1.2.0"
     const val navigation = "2.3.0"
+    const val viewBindingDelegates = "1.3.0"
 }

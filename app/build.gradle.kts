@@ -7,6 +7,10 @@ android {
     compileSdkVersion(Android.compileSdk)
     buildToolsVersion(Android.toolsVersion)
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     defaultConfig {
         applicationId = "com.shvants.balinatestapp"
         minSdkVersion(Android.minSdk)
@@ -45,4 +49,5 @@ dependencies {
     implementation(Libs.material)
     implementation(Libs.navigationFragment)
     implementation(Libs.navigationUi)
+    implementation(Libs.viewBinding)
 }

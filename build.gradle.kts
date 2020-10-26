@@ -5,10 +5,10 @@ buildscript {
     }
 
     dependencies {
-        classpath(GradlePlugin.androidBuildTools)
-//        classpath(GradlePlugin.koin)
-        classpath(GradlePlugin.kotlinGradle)
-        classpath(GradlePlugin.navigation)
+        classpath(Libs.androidBuildTools)
+        classpath(Libs.koin)
+        classpath(Libs.kotlinGradle)
+        classpath(Libs.navigation)
     }
 }
 

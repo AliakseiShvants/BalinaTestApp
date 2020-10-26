@@ -10,25 +10,36 @@ object BuildVersion {
     const val versionName = "1.0"
 }
 
-object GradlePlugin {
-    const val androidBuildTools = "com.android.tools.build:gradle:${Version.androidBuildTools}"
-    const val kotlinGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Version.kotlin}"
-//    const val koin = "org.koin:koin-gradle-plugin:${Version.koin}"
-    const val navigation =
-        "androidx.navigation:navigation-safe-args-gradle-plugin:${Version.navigation}"
-}
-
 object Libs {
+    const val androidBuildTools = "com.android.tools.build:gradle:${Version.androidBuildTools}"
     const val appCompat = "androidx.appcompat:appcompat:${Version.appCompat}"
+
     const val constraintLayout =
         "androidx.constraintlayout:constraintlayout:${Version.constraintLayout}"
     const val coreKtx = "androidx.core:core-ktx:${Version.coreKtx}"
+
+    const val koin = "org.koin:koin-androidx-scope:${Version.koin}"
+    const val koinExt = "org.koin:koin-androidx-ext:${Version.koin}"
+    const val kotlinGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Version.kotlin}"
+
     const val material = "com.google.android.material:material:${Version.material}"
+
+    const val navigation =
+        "androidx.navigation:navigation-safe-args-gradle-plugin:${Version.navigation}"
     const val navigationFragment =
         "androidx.navigation:navigation-fragment-ktx:${Version.navigation}"
     const val navigationUi = "androidx.navigation:navigation-ui-ktx:${Version.navigation}"
+
+    const val roomRuntime = "androidx.room:room-runtime:${Version.room}"
+    const val roomCompiler = "androidx.room:room-compiler:${Version.room}"
+    const val roomKtx = "androidx.room:room-ktx:${Version.room}"
+
     const val viewBinding =
         "com.kirich1409.viewbindingpropertydelegate:viewbindingpropertydelegate:${Version.viewBindingDelegates}"
+}
+
+object Projects {
+    const val database = ":database"
 }
 
 object Version {
@@ -38,8 +49,11 @@ object Version {
     const val constraintLayout = "2.0.1"
     const val coreKtx = "1.3.1"
 
+    const val koin = "2.1.6"
     const val kotlin = "1.4.10"
+
     const val material = "1.2.0"
     const val navigation = "2.3.0"
+    const val room = "2.2.5"
     const val viewBindingDelegates = "1.3.0"
 }

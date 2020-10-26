@@ -43,9 +43,13 @@ android {
 }
 
 dependencies {
+    implementation(project(Projects.database))
+
     implementation(Libs.appCompat)
     implementation(Libs.constraintLayout)
     implementation(Libs.coreKtx)
+    implementation(Libs.koin)
+    implementation(Libs.koinExt)
     implementation(Libs.material)
     implementation(Libs.navigationFragment)
     implementation(Libs.navigationUi)

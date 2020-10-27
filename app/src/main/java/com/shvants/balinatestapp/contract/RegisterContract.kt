@@ -5,7 +5,7 @@ import com.shvants.balinatestapp.presenter.BasePresenter
 interface RegisterContract {
 
     interface View {
-        fun login()
+        fun register()
         fun setError(
             isUsernameValid: Boolean,
             isPasswordValid: Boolean,

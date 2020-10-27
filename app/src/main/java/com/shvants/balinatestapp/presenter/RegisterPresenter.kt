@@ -1,14 +1,27 @@
 package com.shvants.balinatestapp.presenter
 
 import com.shvants.balinatestapp.contract.RegisterContract
+import com.shvants.balinatestapp.repository.AccountRepository
 import com.shvants.balinatestapp.util.Constant.Pattern.USERNAME_PATTERN
 import com.shvants.balinatestapp.util.Constant.Range.PASSWORD_RANGE
 import com.shvants.balinatestapp.util.Constant.Range.USERNAME_RANGE
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import java.util.regex.Pattern
+import kotlin.coroutines.CoroutineContext
 
-class RegisterPresenter : RegisterContract.Presenter {
+class RegisterPresenter(
+    private val accountRepository: AccountRepository
+) : RegisterContract.Presenter, CoroutineScope {
+
+    private val job = Job()
 
     private var view: RegisterContract.View? = null
+
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.Main
 
     override fun attachView(view: RegisterContract.View) {
         this.view = view
@@ -24,6 +37,9 @@ class RegisterPresenter : RegisterContract.Presenter {
         val isConfirmPasswordValid = password == confirmPassword
 
         if (isUsernameValid && isPasswordValid && isConfirmPasswordValid) {
+            launch {
+                accountRepository.register(username, password)
+            }
         }
 
         view?.setError(isUsernameValid, isPasswordValid, isConfirmPasswordValid)

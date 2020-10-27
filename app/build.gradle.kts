@@ -44,6 +44,7 @@ android {
 
 dependencies {
     implementation(project(Projects.database))
+    implementation(project(Projects.network))
 
     implementation(Libs.appCompat)
     implementation(Libs.constraintLayout)

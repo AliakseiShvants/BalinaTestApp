@@ -1,4 +1,4 @@
-package com.shvants.balinatestapp.view
+package com.shvants.balinatestapp.view.fragment
 
 import android.os.Bundle
 import android.view.View

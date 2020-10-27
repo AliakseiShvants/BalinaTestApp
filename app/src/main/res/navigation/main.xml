@@ -6,7 +6,7 @@
     app:startDestination="@id/mainFragment">
 
     <fragment
-        android:name="com.shvants.balinatestapp.view.MainFragment"
+        android:name="com.shvants.balinatestapp.view.fragment.MainFragment"
         android:label="MainFragment"
         tools:layout="@layout/fragment_main"
         android:id="@+id/mainFragment" >
@@ -21,7 +21,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.shvants.balinatestapp.view.LoginFragment"
+        android:name="com.shvants.balinatestapp.view.fragment.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login" >
 
@@ -29,7 +29,7 @@
 
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.shvants.balinatestapp.view.RegisterFragment"
+        android:name="com.shvants.balinatestapp.view.fragment.RegisterFragment"
         android:label="RegisterFragment"
         tools:layout="@layout/fragment_login" >
 

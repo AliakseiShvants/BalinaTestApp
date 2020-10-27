@@ -1,4 +1,4 @@
-package com.shvants.balinatestapp.view
+package com.shvants.balinatestapp.view.fragment
 
 import androidx.fragment.app.Fragment
 import com.shvants.balinatestapp.R

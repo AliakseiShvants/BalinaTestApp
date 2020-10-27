@@ -20,7 +20,7 @@
             app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/register_username_text"
+                android:id="@+id/register_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/username"
@@ -34,8 +34,8 @@
             app:boxBackgroundColor="@color/grey_200"
             app:errorEnabled="true">
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/register_password_text"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/register_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
@@ -49,8 +49,8 @@
             app:boxBackgroundColor="@color/grey_200"
             app:errorEnabled="true">
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/register_confirm_password_text"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/register_confirm_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/confirm_password"

@@ -7,10 +7,12 @@ interface RegisterContract {
     interface View {
         fun register()
         fun setError(
-            isUsernameValid: Boolean,
-            isPasswordValid: Boolean,
-            isConfirmPasswordValid: Boolean
+            usernameError: String? = null,
+            passwordError: String? = null,
+            confirmPasswordError: String? = null
         )
+
+        fun navigate(resId: Int)
     }
 
     interface Presenter : BasePresenter<View> {

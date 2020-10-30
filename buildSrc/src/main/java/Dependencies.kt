@@ -30,6 +30,9 @@ object Libs {
         "androidx.navigation:navigation-fragment-ktx:${Version.navigation}"
     const val navigationUi = "androidx.navigation:navigation-ui-ktx:${Version.navigation}"
 
+    const val okHttpLogInterceptor =
+        "com.squareup.okhttp3:logging-interceptor:${Version.okHttpLogInterceptor}"
+
     const val retrofit = "com.squareup.retrofit2:retrofit:${Version.retrofit}"
     const val retrofitGsonConverter = "com.squareup.retrofit2:converter-gson:${Version.retrofit}"
     const val roomRuntime = "androidx.room:room-runtime:${Version.room}"
@@ -57,6 +60,8 @@ object Version {
 
     const val material = "1.2.0"
     const val navigation = "2.3.0"
+
+    const val okHttpLogInterceptor = "3.9.0"
 
     const val retrofit = "2.9.0"
     const val room = "2.2.5"

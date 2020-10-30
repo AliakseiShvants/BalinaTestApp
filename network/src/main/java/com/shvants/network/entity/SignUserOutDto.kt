@@ -5,12 +5,12 @@ import com.google.gson.annotations.SerializedName
 
 data class SignUserOutDto(
     @Expose
-    @SerializedName("login")
-    val login: String,
+    @SerializedName("userId")
+    val userId: Int,
 
     @Expose
-    @SerializedName("password")
-    val password: String,
+    @SerializedName("login")
+    val login: String,
 
     @Expose
     @SerializedName("token")

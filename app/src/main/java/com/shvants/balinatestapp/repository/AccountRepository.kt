@@ -12,10 +12,11 @@ class AccountRepository(
     private val tokenHelper: ITokenHelper
 ) {
 
-    suspend fun register(username: String, password: String): Result<Boolean> {
+    suspend fun register(login: String, password: String): Result<Boolean> {
         return withContext(Dispatchers.IO) {
             try {
-                val user = accountApi.register(SignUserDtoIn(username, password))
+//                val result = accountApi.login(SignUserDtoIn("ashvants91", "ashvants91"))
+                val user = accountApi.register(SignUserDtoIn(login, password)).user
                 tokenHelper.saveToken(user.token)
 
                 Result.Success(true)

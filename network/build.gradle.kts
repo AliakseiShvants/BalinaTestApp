@@ -23,6 +23,7 @@ android {
 dependencies {
     implementation(Libs.koin)
     implementation(Libs.koinExt)
+    implementation(Libs.okHttpLogInterceptor)
     implementation(Libs.retrofit)
     implementation(Libs.retrofitGsonConverter)
 }

@@ -1,21 +1,28 @@
 package com.shvants.balinatestapp.presenter
 
+import com.shvants.balinatestapp.R
 import com.shvants.balinatestapp.contract.RegisterContract
 import com.shvants.balinatestapp.repository.AccountRepository
+import com.shvants.balinatestapp.util.Constant.Error.CONFIRM_PASSWORD_ERROR
+import com.shvants.balinatestapp.util.Constant.Error.PASSWORD_ERROR
+import com.shvants.balinatestapp.util.Constant.Error.USERNAME_ERROR
+import com.shvants.balinatestapp.util.Constant.Error.USERNAME_EXISTS
 import com.shvants.balinatestapp.util.Constant.Pattern.USERNAME_PATTERN
 import com.shvants.balinatestapp.util.Constant.Range.PASSWORD_RANGE
 import com.shvants.balinatestapp.util.Constant.Range.USERNAME_RANGE
+import com.shvants.network.Result
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 import java.util.regex.Pattern
 import kotlin.coroutines.CoroutineContext
 
-class RegisterPresenter(
-    private val accountRepository: AccountRepository
-) : RegisterContract.Presenter, CoroutineScope {
+class RegisterPresenter : RegisterContract.Presenter, KoinComponent, CoroutineScope {
 
+    private val accountRepository: AccountRepository by inject()
     private val job = Job()
 
     private var view: RegisterContract.View? = null
@@ -38,11 +45,18 @@ class RegisterPresenter(
 
         if (isUsernameValid && isPasswordValid && isConfirmPasswordValid) {
             launch {
-                accountRepository.register(username, password)
+                when (accountRepository.register(username, password)) {
+                    is Result.Success -> view?.navigate(R.id.action_tabLayoutFragment_to_mainFragment)
+                    is Result.Error -> view?.setError(USERNAME_EXISTS)
+                }
             }
-        }
+        } else {
+            val usernameError = if (!isUsernameValid) USERNAME_ERROR else null
+            val passwordError = if (!isPasswordValid) PASSWORD_ERROR else null
+            val confirmPasswordError = if (!isConfirmPasswordValid) CONFIRM_PASSWORD_ERROR else null
 
-        view?.setError(isUsernameValid, isPasswordValid, isConfirmPasswordValid)
+            view?.setError(usernameError, passwordError, confirmPasswordError)
+        }
     }
 
     private fun validateUsername(username: String): Boolean {

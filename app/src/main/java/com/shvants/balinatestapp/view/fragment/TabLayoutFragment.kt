@@ -7,10 +7,15 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.shvants.balinatestapp.R
 import com.shvants.balinatestapp.databinding.FragmentTabLayoutBinding
 import com.shvants.balinatestapp.model.adapter.TabLayoutAdapter
+import com.shvants.network.api.ITokenHelper
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 
-class TabLayoutFragment : Fragment(R.layout.fragment_tab_layout) {
+class TabLayoutFragment : Fragment(R.layout.fragment_tab_layout), KoinComponent {
 
     private val binding: FragmentTabLayoutBinding by viewBinding()
+
+    private val tokenHelper: ITokenHelper by inject()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -22,8 +27,10 @@ class TabLayoutFragment : Fragment(R.layout.fragment_tab_layout) {
                 Pair(RegisterFragment(), "Register")
             )
         )
-
         binding.viewpager.adapter = tabAdapter
         binding.tabLayout.setupWithViewPager(binding.viewpager)
+
+        val index = if (tokenHelper.token == null) 1 else 0
+        binding.tabLayout.getTabAt(index)?.select()
     }
 }

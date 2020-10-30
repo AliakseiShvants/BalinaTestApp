@@ -15,8 +15,20 @@ class AccountRepository(
     suspend fun register(login: String, password: String): Result<Boolean> {
         return withContext(Dispatchers.IO) {
             try {
-//                val result = accountApi.login(SignUserDtoIn("ashvants91", "ashvants91"))
                 val user = accountApi.register(SignUserDtoIn(login, password)).user
+                tokenHelper.saveToken(user.token)
+
+                Result.Success(true)
+            } catch (e: Exception) {
+                Result.Error(e)
+            }
+        }
+    }
+
+    suspend fun login(username: String, password: String): Result<Boolean> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val user = accountApi.login(SignUserDtoIn(username, password)).user
                 tokenHelper.saveToken(user.token)
 
                 Result.Success(true)

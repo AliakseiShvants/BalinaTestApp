@@ -6,14 +6,16 @@
     app:startDestination="@id/tabLayoutFragment">
 
     <fragment
+        android:id="@+id/tabLayoutFragment"
         android:name="com.shvants.balinatestapp.view.fragment.TabLayoutFragment"
         android:label="TabLayoutFragment"
-        tools:layout="@layout/fragment_tab_layout"
-        android:id="@+id/tabLayoutFragment">
+        tools:layout="@layout/fragment_tab_layout">
 
         <action
             android:id="@+id/action_tabLayoutFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/tabLayoutFragment"
+            app:popUpToInclusive="true" />
         <!--        <action-->
         <!--            android:id="@+id/action_tabLayoutFragment_to_registerFragment"-->
         <!--            app:destination="@id/registerFragment" />-->
@@ -23,7 +25,7 @@
         android:id="@+id/loginFragment"
         android:name="com.shvants.balinatestapp.view.fragment.LoginFragment"
         android:label="LoginFragment"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
 
     </fragment>
 
@@ -41,6 +43,10 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.shvants.balinatestapp.view.fragment.MainFragment"
-        tools:layout="@layout/fragment_main"
-        android:label="MainFragment" />
+        android:label="MainFragment"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_tabLayoutFragment"
+            app:destination="@id/tabLayoutFragment" />
+    </fragment>
 </navigation>

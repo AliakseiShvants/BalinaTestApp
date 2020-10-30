@@ -6,17 +6,14 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.shvants.balinatestapp.R
-import com.shvants.balinatestapp.contract.RegisterContract
+import com.shvants.balinatestapp.contract.TabLayoutContract
 import com.shvants.balinatestapp.databinding.FragmentRegisterBinding
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import com.shvants.balinatestapp.presenter.RegisterPresenter
 
-class RegisterFragment : Fragment(R.layout.fragment_register), RegisterContract.View,
-    KoinComponent {
+class RegisterFragment : Fragment(R.layout.fragment_register), TabLayoutContract.View {
 
     private val binding: FragmentRegisterBinding by viewBinding()
-
-    private val presenter: RegisterContract.Presenter by inject()
+    private val presenter = RegisterPresenter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -31,10 +28,6 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegisterContract.
         super.onDestroyView()
     }
 
-    override fun register() {
-        TODO("Not yet implemented")
-    }
-
     override fun setError(
         usernameError: String?,
         passwordError: String?,
@@ -47,17 +40,21 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegisterContract.
         }
     }
 
-    override fun navigate(resId: Int) {
-        findNavController().navigate(resId)
+    override fun navigate() {
+        findNavController().navigate(R.id.action_tabLayoutFragment_to_mainFragment)
     }
 
     private fun FragmentRegisterBinding.bindView() {
         registerButton.setOnClickListener {
-            presenter.validate(
-                username = registerUsername.text.toString(),
-                password = registerPassword.text.toString(),
+            val username = registerUsername.text.toString()
+            val password = registerPassword.text.toString()
+            val isValid = presenter.validate(
+                username = username,
+                password = password,
                 confirmPassword = registerConfirmPassword.text.toString()
             )
+
+            if (isValid) presenter.execute(username, password)
         }
     }
 }

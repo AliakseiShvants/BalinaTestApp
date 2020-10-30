@@ -2,20 +2,20 @@ package com.shvants.balinatestapp.contract
 
 import com.shvants.balinatestapp.presenter.BasePresenter
 
-interface RegisterContract {
+interface TabLayoutContract {
 
     interface View {
-        fun register()
         fun setError(
             usernameError: String? = null,
             passwordError: String? = null,
             confirmPasswordError: String? = null
         )
 
-        fun navigate(resId: Int)
+        fun navigate()
     }
 
     interface Presenter : BasePresenter<View> {
-        fun validate(username: String, password: String, confirmPassword: String)
+        fun validate(username: String, password: String, confirmPassword: String? = null): Boolean
+        fun execute(username: String, password: String)
     }
 }

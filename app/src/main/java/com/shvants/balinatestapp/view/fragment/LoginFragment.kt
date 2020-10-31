@@ -45,8 +45,8 @@ class LoginFragment : Fragment(R.layout.fragment_login), TabLayoutContract.View 
 
     private fun FragmentLoginBinding.bindView() {
         loginButton.setOnClickListener {
-            val username = loginUsername.text.toString()
-            val password = loginPassword.text.toString()
+            val username = /*loginUsername.text.toString()*/"ashvants91"
+            val password = /*loginPassword.text.toString()*/"ashvants91"
             val isValid = presenter.validate(
                 username = username,
                 password = password,

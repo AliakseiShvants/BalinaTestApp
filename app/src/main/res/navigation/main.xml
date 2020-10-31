@@ -16,29 +16,19 @@
             app:destination="@id/mainFragment"
             app:popUpTo="@id/tabLayoutFragment"
             app:popUpToInclusive="true" />
-        <!--        <action-->
-        <!--            android:id="@+id/action_tabLayoutFragment_to_registerFragment"-->
-        <!--            app:destination="@id/registerFragment" />-->
     </fragment>
 
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.shvants.balinatestapp.view.fragment.LoginFragment"
         android:label="LoginFragment"
-        tools:layout="@layout/fragment_login">
-
-    </fragment>
+        tools:layout="@layout/fragment_login" />
 
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.shvants.balinatestapp.view.fragment.RegisterFragment"
         android:label="RegisterFragment"
-        tools:layout="@layout/fragment_login">
-
-        <!--        <action-->
-        <!--            android:id="@+id/action_registerFragment_to_mainFragment"-->
-        <!--            app:destination="@id/mainFragment" />-->
-    </fragment>
+        tools:layout="@layout/fragment_login" />
 
     <fragment
         android:id="@+id/mainFragment"

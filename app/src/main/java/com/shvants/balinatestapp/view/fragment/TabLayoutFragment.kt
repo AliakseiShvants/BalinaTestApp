@@ -3,6 +3,7 @@ package com.shvants.balinatestapp.view.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.shvants.balinatestapp.R
 import com.shvants.balinatestapp.databinding.FragmentTabLayoutBinding
@@ -19,6 +20,7 @@ class TabLayoutFragment : Fragment(R.layout.fragment_tab_layout), KoinComponent 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        findNavController().navigate(R.id.action_tabLayoutFragment_to_mainFragment)
         val tabAdapter = TabLayoutAdapter(requireActivity().supportFragmentManager)
         tabAdapter.addFragments(
             listOf(
@@ -32,10 +34,5 @@ class TabLayoutFragment : Fragment(R.layout.fragment_tab_layout), KoinComponent 
             viewpager.currentItem = if (tokenHelper.token == null) 1 else 0
             tabLayout.setupWithViewPager(binding.viewpager)
         }
-    }
-
-    override fun onDestroyView() {
-
-        super.onDestroyView()
     }
 }

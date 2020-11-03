@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/tabLayoutFragment"
-        android:name="com.shvants.balinatestapp.view.fragment.TabLayoutFragment"
+        android:name="com.shvants.balinatestapp.presentation.fragment.TabLayoutFragment"
         android:label="TabLayoutFragment"
         tools:layout="@layout/fragment_tab_layout">
 
@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.shvants.balinatestapp.view.fragment.MainFragment"
+        android:name="com.shvants.balinatestapp.presentation.fragment.MainFragment"
         android:label="MainFragment"
         tools:layout="@layout/fragment_main">
         <action

@@ -15,7 +15,7 @@
         android:theme="@style/BalinaTestApp">
 
         <activity
-            android:name=".view.SplashActivity"
+            android:name=".presentation.SplashActivity"
             android:theme="@style/BalinaTestApp.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".view.MainActivity" />
+        <activity android:name=".presentation.MainActivity" />
     </application>
 
 </manifest>

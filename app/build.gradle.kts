@@ -37,6 +37,7 @@ dependencies {
     implementation(Libs.appCompat)
     implementation(Libs.constraintLayout)
     implementation(Libs.coreKtx)
+    implementation(Libs.googlePlayLocation)
     implementation(Libs.koin)
     implementation(Libs.koinExt)
     implementation(Libs.material)

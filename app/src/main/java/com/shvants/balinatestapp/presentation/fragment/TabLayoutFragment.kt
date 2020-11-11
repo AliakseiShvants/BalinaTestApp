@@ -13,8 +13,9 @@ import org.koin.core.inject
 
 class TabLayoutFragment : Fragment(R.layout.fragment_tab_layout), KoinComponent {
 
-    private val binding: FragmentTabLayoutBinding by viewBinding()
     private val tokenHelper: ITokenHelper by inject()
+
+    private val binding: FragmentTabLayoutBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -30,7 +31,7 @@ class TabLayoutFragment : Fragment(R.layout.fragment_tab_layout), KoinComponent 
 
         with(binding) {
             viewpager.adapter = tabAdapter
-            viewpager.currentItem = if (tokenHelper.token == null) 1 else 0
+            viewpager.currentItem = if (tokenHelper.token == "") 1 else 0
             tabLayout.setupWithViewPager(binding.viewpager)
         }
     }

@@ -3,9 +3,8 @@ package com.shvants.network.data.entity
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class ResponseData(
+data class CommentDtoIn(
     @Expose
-    @SerializedName("data")
-    val user: SignUserOutDto
+    @SerializedName("text")
+    private val text: String
 )
-

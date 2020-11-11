@@ -1,7 +1,6 @@
 package com.shvants.balinatestapp.domain.mvp.presenter
 
 import com.shvants.balinatestapp.domain.mvp.contract.TabLayoutContract
-import com.shvants.balinatestapp.domain.usecase.IAccountUseCase
 import com.shvants.balinatestapp.util.Constant.Error.CONFIRM_PASSWORD_ERROR
 import com.shvants.balinatestapp.util.Constant.Error.PASSWORD_ERROR
 import com.shvants.balinatestapp.util.Constant.Error.USERNAME_ERROR
@@ -15,9 +14,7 @@ import org.koin.core.KoinComponent
 import java.util.regex.Pattern
 import kotlin.coroutines.CoroutineContext
 
-abstract class TabLayoutPresenter(
-    private val accountUseCase: IAccountUseCase
-) : TabLayoutContract.Presenter, CoroutineScope, KoinComponent {
+abstract class TabLayoutPresenter : TabLayoutContract.Presenter, CoroutineScope, KoinComponent {
 
     private val job = Job()
 

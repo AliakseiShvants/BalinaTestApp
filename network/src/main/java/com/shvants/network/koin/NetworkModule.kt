@@ -9,6 +9,12 @@ import org.koin.dsl.module
 val networkModule = module {
     single<ITokenHelper> { TokenHelper(androidApplication()) }
     single {
-        NetworkService().accountNetworkService
+        NetworkService(tokenHelper = get()).accountService
+    }
+    single {
+        NetworkService(tokenHelper = get()).commentService
+    }
+    single {
+        NetworkService(tokenHelper = get()).imageService
     }
 }

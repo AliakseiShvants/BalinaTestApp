@@ -1,8 +1,12 @@
 package com.shvants.balinatestapp.domain.mvp.presenter
 
+import com.shvants.balinatestapp.data.repository.ImageRepository
 import com.shvants.balinatestapp.domain.mvp.contract.MainContract
+import com.shvants.network.data.entity.ImageDtoIn
 
-class MainPresenter : MainContract.Presenter {
+class MainPresenter(
+    private val imageRepository: ImageRepository
+) : MainContract.Presenter {
 
     private var view: MainContract.View? = null
 
@@ -16,5 +20,10 @@ class MainPresenter : MainContract.Presenter {
 
     override fun loadImage(page: Int) {
 
+    }
+
+    override fun saveImage(image: ImageDtoIn) {
+
+//        imageRepository.saveImage(image)
     }
 }

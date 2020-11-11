@@ -12,21 +12,21 @@ class TokenHelper(context: Context) : ITokenHelper {
     private val sharedPreferences: SharedPreferences =
         context.getSharedPreferences(PREFS, MODE_PRIVATE)
 
-    private var _token: String?
+    private var _token: String
 
-    override val token: String?
+    override val token: String
         get() = _token
 
     init {
-        _token = sharedPreferences.getString(TOKEN, null)
+        _token = sharedPreferences.getString(TOKEN, null) ?: ""
     }
 
-    override fun saveToken(token: String?) {
+    override fun saveToken(token: String) {
         _token = token
         setString(TOKEN, token)
     }
 
-    private fun setString(key: String, value: String?) {
+    private fun setString(key: String, value: String) {
         sharedPreferences.edit()
             .putString(key, value)
             .apply()

@@ -13,8 +13,9 @@ import org.koin.core.KoinComponent
 
 class LoginFragment : Fragment(R.layout.fragment_login), LoginContract.View, KoinComponent {
 
-    private val binding: FragmentLoginBinding by viewBinding()
     private val presenter: LoginContract.Presenter by inject()
+
+    private val binding: FragmentLoginBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

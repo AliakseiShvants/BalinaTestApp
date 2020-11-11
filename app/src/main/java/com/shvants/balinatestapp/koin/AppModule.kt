@@ -1,29 +1,27 @@
 package com.shvants.balinatestapp.koin
 
 import com.shvants.balinatestapp.data.repository.AccountRepository
+import com.shvants.balinatestapp.data.repository.ImageRepository
 import com.shvants.balinatestapp.domain.mvp.contract.LoginContract
+import com.shvants.balinatestapp.domain.mvp.contract.MainContract
 import com.shvants.balinatestapp.domain.mvp.contract.RegisterContract
 import com.shvants.balinatestapp.domain.mvp.presenter.LoginPresenter
+import com.shvants.balinatestapp.domain.mvp.presenter.MainPresenter
 import com.shvants.balinatestapp.domain.mvp.presenter.RegisterPresenter
-import com.shvants.balinatestapp.domain.repository.IAccountRepository
-import com.shvants.balinatestapp.domain.usecase.AccountUseCase
-import com.shvants.balinatestapp.domain.usecase.IAccountUseCase
 import org.koin.dsl.module
 
 val appModule = module {
 
-    single<IAccountRepository> { AccountRepository() }
-    single<IAccountUseCase> {
-        AccountUseCase(
-            accountRepository = get(),
-        )
-    }
+    single { AccountRepository() }
+    single { ImageRepository() }
 
     factory<LoginContract.Presenter> {
-        LoginPresenter(accountUseCase = get())
+        LoginPresenter(accountRepository = get())
     }
 
     factory<RegisterContract.Presenter> {
-        RegisterPresenter(accountUseCase = get())
+        RegisterPresenter(accountRepository = get())
     }
+
+    factory<MainContract.Presenter> { MainPresenter(imageRepository = get()) }
 }

@@ -18,6 +18,9 @@ object Libs {
         "androidx.constraintlayout:constraintlayout:${Version.constraintLayout}"
     const val coreKtx = "androidx.core:core-ktx:${Version.coreKtx}"
 
+    const val googlePlayLocation =
+        "com.google.android.gms:play-services-location:${Version.googlePlayLocation}"
+
     const val koin = "org.koin:koin-androidx-scope:${Version.koin}"
     const val koinExt = "org.koin:koin-androidx-ext:${Version.koin}"
     const val kotlinGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Version.kotlin}"
@@ -54,6 +57,8 @@ object Version {
 
     const val constraintLayout = "2.0.1"
     const val coreKtx = "1.3.1"
+
+    const val googlePlayLocation = "17.1.0"
 
     const val koin = "2.1.6"
     const val kotlin = "1.4.10"

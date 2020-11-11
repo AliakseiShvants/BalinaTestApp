@@ -1,8 +1,11 @@
 package com.shvants.network.data.entity
 
+import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class SignUserOutDto(
     @Expose
     @SerializedName("userId")
@@ -15,4 +18,4 @@ data class SignUserOutDto(
     @Expose
     @SerializedName("token")
     val token: String
-)
+) : Parcelable

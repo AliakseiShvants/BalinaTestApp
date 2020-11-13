@@ -8,7 +8,7 @@ import retrofit2.http.*
 interface ImageService {
 
     @GET("/api/image")
-    suspend fun getImage(@Query("page") page: Int): ResponseDto<List<ImageDtoOut>>
+    suspend fun getImages(@Query("page") page: Int): ResponseDto<List<ImageDtoOut>>
 
     @HTTP(method = "POST", path = "/api/image", hasBody = true)
     suspend fun saveImage(@Body image: ImageDtoIn): ResponseDto<ImageDtoOut>

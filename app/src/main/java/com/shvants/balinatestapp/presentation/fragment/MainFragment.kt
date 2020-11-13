@@ -16,6 +16,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.shvants.balinatestapp.R
+import com.shvants.balinatestapp.data.repository.Image
 import com.shvants.balinatestapp.databinding.FragmentMainBinding
 import com.shvants.balinatestapp.domain.mvp.contract.MainContract
 import com.shvants.balinatestapp.util.convertToString
@@ -44,7 +45,7 @@ class MainFragment : Fragment(R.layout.fragment_main), MainContract.View, KoinCo
         super.onViewCreated(view, savedInstanceState)
 
         presenter.attachView(this)
-        presenter.loadImage(page.incrementAndGet())
+//        presenter.loadImages(page.incrementAndGet(), Locale("ru"))
 
         with(binding.recyclerview) {
             layoutManager = GridLayoutManager(requireContext(), 3, RecyclerView.HORIZONTAL, false)
@@ -97,6 +98,10 @@ class MainFragment : Fragment(R.layout.fragment_main), MainContract.View, KoinCo
         presenter.detachView()
 
         super.onDestroyView()
+    }
+
+    override fun setImages(list: List<Image>) {
+
     }
 
     private fun makeFoto() {

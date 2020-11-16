@@ -18,11 +18,13 @@ import com.google.android.gms.location.LocationServices
 import com.shvants.balinatestapp.R
 import com.shvants.balinatestapp.data.repository.Image
 import com.shvants.balinatestapp.databinding.FragmentMainBinding
+import com.shvants.balinatestapp.domain.adapter.ImageAdapter
 import com.shvants.balinatestapp.domain.mvp.contract.MainContract
 import com.shvants.balinatestapp.util.convertToString
 import com.shvants.network.data.entity.ImageDtoIn
 import org.koin.core.KoinComponent
 import org.koin.core.inject
+import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
 
 class MainFragment : Fragment(R.layout.fragment_main), MainContract.View, KoinComponent {
@@ -34,6 +36,7 @@ class MainFragment : Fragment(R.layout.fragment_main), MainContract.View, KoinCo
     private val page = AtomicInteger(0)
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var coordinate = Pair(0.0, 0.0)
+    private lateinit var imageAdapter: ImageAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +48,7 @@ class MainFragment : Fragment(R.layout.fragment_main), MainContract.View, KoinCo
         super.onViewCreated(view, savedInstanceState)
 
         presenter.attachView(this)
-//        presenter.loadImages(page.incrementAndGet(), Locale("ru"))
+        presenter.loadImages(page.incrementAndGet(), Locale("ru"))
 
         with(binding.recyclerview) {
             layoutManager = GridLayoutManager(requireContext(), 3, RecyclerView.HORIZONTAL, false)
@@ -101,7 +104,7 @@ class MainFragment : Fragment(R.layout.fragment_main), MainContract.View, KoinCo
     }
 
     override fun setImages(list: List<Image>) {
-
+        binding.recyclerview.adapter = ImageAdapter(list)
     }
 
     private fun makeFoto() {

@@ -1,31 +1,45 @@
 package com.shvants.balinatestapp.domain.adapter
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.shvants.balinatestapp.databinding.AdapterImageItemBinding
-import com.shvants.network.data.entity.ImageDtoOut
+import coil.load
+import com.shvants.balinatestapp.data.repository.Image
+import com.shvants.balinatestapp.databinding.ViewImageItemBinding
 
 class ImageAdapter(
-    private val list: List<ImageDtoOut>
+    private val list: List<Image>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        TODO("Not yet implemented")
+        return ImageHolder(
+            ViewImageItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun getItemCount() = list.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        with(holder as ImageHolder) {
+            val item = list[position]
+            bind(item)
+        }
     }
 
     inner class ImageHolder(
-        private val binding: AdapterImageItemBinding
+        private val binding: ViewImageItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: ImageDtoOut) {
+        fun bind(item: Image) {
             with(binding) {
-//                imagePreview.setImageBitmap()
+                imagePreview.load(item.url) {
+                    crossfade(true)
+                }
+                imageDate.text = item.date
             }
         }
     }

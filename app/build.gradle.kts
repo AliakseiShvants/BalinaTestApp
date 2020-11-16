@@ -35,6 +35,7 @@ dependencies {
     implementation(project(Projects.network))
 
     implementation(Libs.appCompat)
+    implementation(Libs.coil)
     implementation(Libs.constraintLayout)
     implementation(Libs.coreKtx)
     implementation(Libs.googlePlayLocation)

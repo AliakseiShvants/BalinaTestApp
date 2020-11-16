@@ -14,6 +14,7 @@ object Libs {
     const val androidBuildTools = "com.android.tools.build:gradle:${Version.androidBuildTools}"
     const val appCompat = "androidx.appcompat:appcompat:${Version.appCompat}"
 
+    const val coil = "io.coil-kt:coil:${Version.coil}"
     const val constraintLayout =
         "androidx.constraintlayout:constraintlayout:${Version.constraintLayout}"
     const val coreKtx = "androidx.core:core-ktx:${Version.coreKtx}"
@@ -55,6 +56,7 @@ object Version {
     const val androidBuildTools = "4.0.1"
     const val appCompat = "1.1.0"
 
+    const val coil = "1.0.0"
     const val constraintLayout = "2.0.1"
     const val coreKtx = "1.3.1"
 

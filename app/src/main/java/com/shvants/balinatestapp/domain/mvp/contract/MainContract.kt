@@ -14,6 +14,5 @@ interface MainContract {
     interface Presenter : BasePresenter<View> {
         fun loadImages(page: Int, locale: Locale)
         fun saveImage(image: ImageDtoIn)
-
     }
 }

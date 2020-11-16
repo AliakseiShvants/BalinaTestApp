@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "images")
 data class ImageModel(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     val id: Int,
     val url: String,
     val date: Long,

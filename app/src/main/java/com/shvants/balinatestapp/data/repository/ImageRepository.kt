@@ -1,5 +1,6 @@
 package com.shvants.balinatestapp.data.repository
 
+import android.util.Log
 import com.shvants.balinatestapp.util.toDbModel
 import com.shvants.balinatestapp.util.toUiModel
 import com.shvants.database.domain.ImageDAO
@@ -37,8 +38,12 @@ class ImageRepository : KoinComponent {
 
     suspend fun saveImage(image: ImageDtoIn) {
         withContext(Dispatchers.IO) {
-            val imageNetwork = service.saveImage(image).data
-            dao.save(imageNetwork.toDbModel())
+            try {
+                val imageNetwork = service.saveImage(image).data
+                dao.save(imageNetwork.toDbModel())
+            } catch (e: Exception) {
+                Log.e("IMAGE", e.message)
+            }
         }
     }
 

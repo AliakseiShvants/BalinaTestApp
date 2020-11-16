@@ -84,8 +84,8 @@ class MainFragment : Fragment(R.layout.fragment_main), MainContract.View, KoinCo
 
             imageBitmap?.let {
                 val image = ImageDtoIn(
-                    image = imageBitmap.convertToString(),
-                    date = System.currentTimeMillis(),
+                    base64Image = imageBitmap.convertToString(),
+                    date = System.currentTimeMillis().toInt(),
                     lat = coordinate.first,
                     lng = coordinate.second
                 )

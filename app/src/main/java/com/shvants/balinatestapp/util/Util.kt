@@ -20,7 +20,7 @@ fun Bitmap.convertToString(): String {
 fun ImageDtoOut.toDbModel() = ImageModel(
     id = id,
     url = url,
-    date = date,
+    date = date.toLong(),
     lat = lat,
     lng = lng
 )

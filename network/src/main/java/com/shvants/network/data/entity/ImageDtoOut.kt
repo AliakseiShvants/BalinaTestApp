@@ -14,7 +14,7 @@ data class ImageDtoOut(
 
     @Expose
     @SerializedName("date")
-    val date: Long,
+    val date: Int,
 
     @Expose
     @SerializedName("lat")

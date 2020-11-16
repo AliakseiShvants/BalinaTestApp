@@ -6,17 +6,17 @@ import com.google.gson.annotations.SerializedName
 data class ImageDtoIn(
     @Expose
     @SerializedName("base64Image")
-    private val image: String,
+    val base64Image: String,
 
     @Expose
     @SerializedName("date")
-    private val date: Long,
+    val date: Int,
 
     @Expose
     @SerializedName("lat")
-    private val lat: Double,
+    val lat: Double,
 
     @Expose
     @SerializedName("lng")
-    private val lng: Double
+    val lng: Double
 )

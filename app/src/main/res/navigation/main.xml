@@ -23,8 +23,5 @@
         android:name="com.shvants.balinatestapp.presentation.fragment.MainFragment"
         android:label="MainFragment"
         tools:layout="@layout/fragment_main">
-        <action
-            android:id="@+id/action_mainFragment_to_tabLayoutFragment"
-            app:destination="@id/tabLayoutFragment" />
     </fragment>
 </navigation>

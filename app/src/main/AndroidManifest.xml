@@ -20,6 +20,10 @@
         android:theme="@style/BalinaTestApp"
         android:usesCleartextTraffic="true">
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/maps_api_key" />
+
         <activity
             android:name=".presentation.SplashActivity"
             android:theme="@style/BalinaTestApp.Launcher">

@@ -1,20 +1,18 @@
 package com.shvants.balinatestapp.domain.mvp.contract
 
-import com.shvants.balinatestapp.data.repository.Image
+import android.view.MenuItem
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
 import com.shvants.balinatestapp.domain.mvp.presenter.BasePresenter
-import com.shvants.network.data.entity.ImageDtoIn
-import java.util.*
 
 interface MainContract {
 
     interface View {
-        fun setImages(list: List<Image>)
+        fun replaceFragment(fragment: Fragment)
+        fun setCheckedItem(item: MenuItem)
     }
 
     interface Presenter : BasePresenter<View> {
-        val hasMore: Boolean
-
-        fun loadImages(page: Int, locale: Locale)
-        fun saveImage(image: ImageDtoIn)
+        fun navigationItemSelected(item: MenuItem, drawerLayout: DrawerLayout)
     }
 }

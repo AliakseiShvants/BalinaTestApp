@@ -7,4 +7,5 @@
     <string name="register">register</string>
     <string name="photos">Photos</string>
     <string name="map">Map</string>
+    <string name="maps_api_key">AIzaSyAAhOVSnpehESHnm8zl9RpJncOWZirD1ro</string>
 </resources>

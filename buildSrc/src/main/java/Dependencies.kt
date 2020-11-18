@@ -20,7 +20,9 @@ object Libs {
     const val coreKtx = "androidx.core:core-ktx:${Version.coreKtx}"
 
     const val googlePlayLocation =
-        "com.google.android.gms:play-services-location:${Version.googlePlayLocation}"
+        "com.google.android.gms:play-services-location:${Version.googlePlay}"
+    const val googlePlayMaps =
+        "com.google.android.gms:play-services-maps:${Version.googlePlay}"
 
     const val koin = "org.koin:koin-androidx-scope:${Version.koin}"
     const val koinExt = "org.koin:koin-androidx-ext:${Version.koin}"
@@ -60,7 +62,7 @@ object Version {
     const val constraintLayout = "2.0.1"
     const val coreKtx = "1.3.1"
 
-    const val googlePlayLocation = "17.1.0"
+    const val googlePlay = "17.0.0"
 
     const val koin = "2.1.6"
     const val kotlin = "1.4.10"

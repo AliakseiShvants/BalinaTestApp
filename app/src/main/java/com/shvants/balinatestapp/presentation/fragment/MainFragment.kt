@@ -1,115 +1,50 @@
 package com.shvants.balinatestapp.presentation.fragment
 
-import android.Manifest
-import android.app.Activity.RESULT_OK
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.os.Bundle
-import android.provider.MediaStore
+import android.view.MenuItem
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.google.android.material.navigation.NavigationView
 import com.shvants.balinatestapp.R
-import com.shvants.balinatestapp.data.repository.Image
 import com.shvants.balinatestapp.databinding.FragmentMainBinding
-import com.shvants.balinatestapp.domain.adapter.ImageAdapter
 import com.shvants.balinatestapp.domain.mvp.contract.MainContract
-import com.shvants.balinatestapp.util.convertToString
-import com.shvants.network.data.entity.ImageDtoIn
+import com.shvants.balinatestapp.presentation.MainActivity
 import org.koin.core.KoinComponent
 import org.koin.core.inject
-import java.util.*
-import java.util.concurrent.atomic.AtomicInteger
 
-class MainFragment : Fragment(R.layout.fragment_main), MainContract.View, KoinComponent {
+class MainFragment : Fragment(R.layout.fragment_main),
+    MainContract.View,
+    NavigationView.OnNavigationItemSelectedListener,
+    KoinComponent {
 
     private val presenter: MainContract.Presenter by inject()
-
     private val binding: FragmentMainBinding by viewBinding()
 
-    private val page = AtomicInteger(0)
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private var coordinate = Pair(0.0, 0.0)
-    private lateinit var imageAdapter: ImageAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-    }
+    private lateinit var activity: MainActivity
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        activity = requireActivity() as MainActivity
         presenter.attachView(this)
-        presenter.loadImages(page.incrementAndGet(), Locale("ru"))
-
-        with(binding.recyclerview) {
-            layoutManager = GridLayoutManager(requireContext(), 3)
-            setHasFixedSize(true)
-            addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-
-                    val manager = layoutManager as GridLayoutManager
-                    val lastItem = manager.findLastCompletelyVisibleItemPosition()
-                    val totalCount = manager.itemCount
-
-                    if (totalCount <= lastItem + 3 && presenter.hasMore) presenter.loadImages(
-                        page.incrementAndGet(),
-                        Locale("ru")
-                    )
-                }
-            })
-        }
-
-        binding.addFoto.setOnClickListener {
-            when {
-                ContextCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED -> addLocationListener()
-                shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION) -> {
-                    //todo make info message
-                }
-                else -> requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION), 1)
-            }
-
-            makeFoto()
-        }
+        requireActivity().supportFragmentManager
+            .beginTransaction()
+            .add(R.id.nav_fragment_container, PhotosFragment.INSTANCE)
+            .commit()
+        binding.navigation.setNavigationItemSelectedListener(this)
+        binding.navigation.menu.getItem(0).isChecked = true
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        if (requestCode == 1
-            && grantResults.isNotEmpty()
-            && grantResults[0] == PackageManager.PERMISSION_GRANTED
-        ) addLocationListener()
+    override fun replaceFragment(fragment: Fragment) {
+        activity.supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.nav_fragment_container, fragment)
+            .commit()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == 1 && resultCode == RESULT_OK) {
-            val imageBitmap = data?.extras?.get("data") as? Bitmap
-
-            imageBitmap?.let {
-                val image = ImageDtoIn(
-                    base64Image = imageBitmap.convertToString(),
-                    date = System.currentTimeMillis().toInt(),
-                    lat = coordinate.first,
-                    lng = coordinate.second
-                )
-                presenter.saveImage(image)
-            }
-        }
+    override fun setCheckedItem(item: MenuItem) {
+        binding.navigation.setCheckedItem(item)
     }
 
     override fun onDestroyView() {
@@ -118,18 +53,9 @@ class MainFragment : Fragment(R.layout.fragment_main), MainContract.View, KoinCo
         super.onDestroyView()
     }
 
-    override fun setImages(list: List<Image>) {
-        binding.recyclerview.adapter = ImageAdapter(list)
-    }
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        presenter.navigationItemSelected(item, binding.drawerLayout)
 
-    private fun makeFoto() {
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        startActivityForResult(intent, 1)
-    }
-
-    private fun addLocationListener() {
-        fusedLocationClient.lastLocation.addOnSuccessListener {
-            coordinate = Pair(it.latitude, it.longitude)
-        }
+        return true
     }
 }

@@ -1,20 +1,17 @@
 package com.shvants.balinatestapp.domain.mvp.presenter
 
-import com.shvants.balinatestapp.data.repository.ImageRepository
+import android.view.MenuItem
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import com.shvants.balinatestapp.R
 import com.shvants.balinatestapp.domain.mvp.contract.MainContract
-import com.shvants.network.data.entity.ImageDtoIn
+import com.shvants.balinatestapp.presentation.fragment.MapFragment
+import com.shvants.balinatestapp.presentation.fragment.PhotosFragment
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import java.util.*
 
-class MainPresenter(
-    private val imageRepository: ImageRepository
-) : MainContract.Presenter, CoroutineScope {
+class MainPresenter : MainContract.Presenter, CoroutineScope {
 
     private var view: MainContract.View? = null
-
-    override val hasMore: Boolean
-        get() = imageRepository.hasMore
 
     override fun attachView(view: MainContract.View) {
         this.view = view
@@ -24,17 +21,11 @@ class MainPresenter(
         view = null
     }
 
-    override fun loadImages(page: Int, locale: Locale) {
-        launch {
-            val result = imageRepository.loadFromDb(page, locale)
-            view?.setImages(result)
-        }
-    }
-
-    override fun saveImage(image: ImageDtoIn) {
-        launch {
-            imageRepository.saveImage(image)
-        }
-
+    override fun navigationItemSelected(item: MenuItem, drawerLayout: DrawerLayout) {
+        val fragment =
+            if (item.itemId == R.id.nav_photos) PhotosFragment.INSTANCE else MapFragment.INSTANCE
+        view?.replaceFragment(fragment)
+        view?.setCheckedItem(item)
+        drawerLayout.closeDrawer(GravityCompat.START)
     }
 }

@@ -39,6 +39,7 @@ dependencies {
     implementation(Libs.constraintLayout)
     implementation(Libs.coreKtx)
     implementation(Libs.googlePlayLocation)
+    implementation(Libs.googlePlayMaps)
     implementation(Libs.koin)
     implementation(Libs.koinExt)
     implementation(Libs.material)

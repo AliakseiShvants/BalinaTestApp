@@ -51,7 +51,22 @@ class MainFragment : Fragment(R.layout.fragment_main), MainContract.View, KoinCo
         presenter.loadImages(page.incrementAndGet(), Locale("ru"))
 
         with(binding.recyclerview) {
-            layoutManager = GridLayoutManager(requireContext(), 3, RecyclerView.HORIZONTAL, false)
+            layoutManager = GridLayoutManager(requireContext(), 3)
+            setHasFixedSize(true)
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+
+                    val manager = layoutManager as GridLayoutManager
+                    val lastItem = manager.findLastCompletelyVisibleItemPosition()
+                    val totalCount = manager.itemCount
+
+                    if (totalCount <= lastItem + 3 && presenter.hasMore) presenter.loadImages(
+                        page.incrementAndGet(),
+                        Locale("ru")
+                    )
+                }
+            })
         }
 
         binding.addFoto.setOnClickListener {

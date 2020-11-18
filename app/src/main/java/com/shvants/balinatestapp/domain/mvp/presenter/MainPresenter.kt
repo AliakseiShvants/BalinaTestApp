@@ -13,6 +13,9 @@ class MainPresenter(
 
     private var view: MainContract.View? = null
 
+    override val hasMore: Boolean
+        get() = imageRepository.hasMore
+
     override fun attachView(view: MainContract.View) {
         this.view = view
     }

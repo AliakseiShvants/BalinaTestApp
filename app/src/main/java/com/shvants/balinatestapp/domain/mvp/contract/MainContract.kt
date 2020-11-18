@@ -12,6 +12,8 @@ interface MainContract {
     }
 
     interface Presenter : BasePresenter<View> {
+        val hasMore: Boolean
+
         fun loadImages(page: Int, locale: Locale)
         fun saveImage(image: ImageDtoIn)
     }

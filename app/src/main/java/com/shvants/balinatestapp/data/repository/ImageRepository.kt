@@ -19,6 +19,7 @@ class ImageRepository : KoinComponent {
     private val service: ImageService by inject()
 
     private var networkCache = mutableListOf<ImageDtoOut>()
+    var hasMore = true
 
 //    suspend fun load(page: Int, locale: Locale): List<Image> {
 //        return withContext(Dispatchers.IO) {
@@ -56,6 +57,8 @@ class ImageRepository : KoinComponent {
                 dao.insertAll(networkList.map { it.toDbModel() })
                 dbList = dao.getImages(page)
             }
+
+            if (dbList.size < page * 10) hasMore = false
 
             dbList.map { it.toUiModel(locale) }
         }

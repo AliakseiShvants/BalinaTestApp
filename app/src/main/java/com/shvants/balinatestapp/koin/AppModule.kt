@@ -2,14 +2,8 @@ package com.shvants.balinatestapp.koin
 
 import com.shvants.balinatestapp.data.repository.AccountRepository
 import com.shvants.balinatestapp.data.repository.ImageRepository
-import com.shvants.balinatestapp.domain.mvp.contract.LoginContract
-import com.shvants.balinatestapp.domain.mvp.contract.MainContract
-import com.shvants.balinatestapp.domain.mvp.contract.PhotosContract
-import com.shvants.balinatestapp.domain.mvp.contract.RegisterContract
-import com.shvants.balinatestapp.domain.mvp.presenter.LoginPresenter
-import com.shvants.balinatestapp.domain.mvp.presenter.MainPresenter
-import com.shvants.balinatestapp.domain.mvp.presenter.PhotosPresenter
-import com.shvants.balinatestapp.domain.mvp.presenter.RegisterPresenter
+import com.shvants.balinatestapp.domain.mvp.contract.*
+import com.shvants.balinatestapp.domain.mvp.presenter.*
 import org.koin.dsl.module
 
 val appModule = module {
@@ -21,4 +15,5 @@ val appModule = module {
     factory<RegisterContract.Presenter> { RegisterPresenter(accountRepository = get()) }
     factory<MainContract.Presenter> { MainPresenter() }
     factory<PhotosContract.Presenter> { PhotosPresenter(imageRepository = get()) }
+    factory<MapContract.Presenter> { MapPresenter(imageRepository = get()) }
 }

@@ -14,13 +14,11 @@ import org.koin.core.inject
 class TabLayoutFragment : Fragment(R.layout.fragment_tab_layout), KoinComponent {
 
     private val tokenHelper: ITokenHelper by inject()
-
     private val binding: FragmentTabLayoutBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        findNavController().navigate(R.id.action_tabLayoutFragment_to_mainFragment)
         val tabAdapter = TabLayoutAdapter(requireActivity().supportFragmentManager)
         tabAdapter.addFragments(
             listOf(

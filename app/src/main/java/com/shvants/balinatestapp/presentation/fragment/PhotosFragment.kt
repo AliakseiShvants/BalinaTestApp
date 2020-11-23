@@ -18,7 +18,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.shvants.balinatestapp.R
-import com.shvants.balinatestapp.data.repository.Image
+import com.shvants.balinatestapp.data.repository.PhotoImage
 import com.shvants.balinatestapp.databinding.FragmentPhotosBinding
 import com.shvants.balinatestapp.domain.adapter.ImageAdapter
 import com.shvants.balinatestapp.domain.mvp.contract.PhotosContract
@@ -34,10 +34,13 @@ class PhotosFragment private constructor() : Fragment(), PhotosContract.View, Ko
     private val presenter: PhotosContract.Presenter by inject()
     private val binding: FragmentPhotosBinding by viewBinding()
 
+    private val imageAdapter = ImageAdapter()
     private val page = AtomicInteger(0)
+
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var locale: Locale
+
     private var coordinate = Pair(0.0, 0.0)
-    private lateinit var imageAdapter: ImageAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,42 +60,11 @@ class PhotosFragment private constructor() : Fragment(), PhotosContract.View, Ko
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        locale = requireActivity().resources.configuration.locales[0]
         presenter.attachView(this)
-        presenter.loadImages(page.incrementAndGet(), Locale("ru"))
+        presenter.loadImages(page.incrementAndGet(), locale)
 
-        with(binding.recyclerview) {
-            layoutManager = GridLayoutManager(requireContext(), 3)
-            setHasFixedSize(true)
-            addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-
-                    val manager = layoutManager as GridLayoutManager
-                    val lastItem = manager.findLastCompletelyVisibleItemPosition()
-                    val totalCount = manager.itemCount
-
-                    if (totalCount <= lastItem + 3 && presenter.hasMore) presenter.loadImages(
-                        page.incrementAndGet(),
-                        Locale("ru")
-                    )
-                }
-            })
-        }
-
-        binding.addFoto.setOnClickListener {
-            when {
-                ContextCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED -> addLocationListener()
-                shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION) -> {
-                    //todo make info message
-                }
-                else -> requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION), 1)
-            }
-
-            makeFoto()
-        }
+        binding.bindView()
     }
 
     override fun onRequestPermissionsResult(
@@ -113,11 +85,11 @@ class PhotosFragment private constructor() : Fragment(), PhotosContract.View, Ko
             imageBitmap?.let {
                 val image = ImageDtoIn(
                     base64Image = imageBitmap.convertToString(),
-                    date = System.currentTimeMillis().toInt(),
+                    date = (System.currentTimeMillis() / 1000).toInt(),
                     lat = coordinate.first,
                     lng = coordinate.second
                 )
-                presenter.saveImage(image)
+                presenter.saveImage(image, page.get(), locale)
             }
         }
     }
@@ -128,8 +100,49 @@ class PhotosFragment private constructor() : Fragment(), PhotosContract.View, Ko
         super.onDestroyView()
     }
 
-    override fun setImages(list: List<Image>) {
-        binding.recyclerview.adapter = ImageAdapter(list)
+    override fun setImages(list: List<PhotoImage>) {
+        imageAdapter.setPhotos(list)
+    }
+
+    override fun addImage(image: PhotoImage) {
+        imageAdapter.addImage(image)
+    }
+
+    private fun FragmentPhotosBinding.bindView() {
+        with(recyclerview) {
+            adapter = imageAdapter
+            layoutManager = GridLayoutManager(requireContext(), 3)
+            setHasFixedSize(true)
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+
+                    val manager = layoutManager as GridLayoutManager
+                    val lastItem = manager.findLastCompletelyVisibleItemPosition()
+                    val totalCount = manager.itemCount
+
+                    if (totalCount <= lastItem + 3 && presenter.hasMore) presenter.loadImages(
+                        page.incrementAndGet(),
+                        locale
+                    )
+                }
+            })
+        }
+
+        addFoto.setOnClickListener {
+            when {
+                ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED -> addLocationListener()
+                shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION) -> {
+                    //todo make info message
+                }
+                else -> requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION), 1)
+            }
+
+            makeFoto()
+        }
     }
 
     private fun makeFoto() {

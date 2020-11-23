@@ -16,7 +16,7 @@ class LoginPresenter(
     override fun execute(username: String, password: String) {
         launch {
             when (accountRepository.login(username, password)) {
-                is Result.Success -> view?.navigate()
+                is Result.Success -> view?.navigate(username)
                 is Result.Error -> view?.setError(Constant.Error.SIGN_IN_INCORRECT)
             }
         }

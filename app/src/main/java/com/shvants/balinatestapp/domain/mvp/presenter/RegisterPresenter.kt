@@ -16,7 +16,7 @@ class RegisterPresenter(
     override fun execute(username: String, password: String) {
         launch {
             when (accountRepository.register(username, password)) {
-                is Result.Success -> view?.navigate()
+                is Result.Success -> view?.navigate(username)
                 is Result.Error -> view?.setError(Constant.Error.SIGN_UP_ALREADY_IN_USE)
             }
         }

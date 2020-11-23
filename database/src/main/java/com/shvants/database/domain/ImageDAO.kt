@@ -15,6 +15,9 @@ interface ImageDAO {
     @Query("SELECT * FROM images ORDER BY date LIMIT 10 * :page")
     fun getImages(page: Int): List<ImageModel>
 
+    @Query("SELECT * FROM images")
+    fun getAllImages(): List<ImageModel>
+
     @Query("DELETE FROM images")
     fun deleteAll()
 

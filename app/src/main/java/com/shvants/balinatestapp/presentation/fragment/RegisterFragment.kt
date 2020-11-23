@@ -2,6 +2,7 @@ package com.shvants.balinatestapp.presentation.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -44,8 +45,11 @@ class RegisterFragment : Fragment(R.layout.fragment_register), TabLayoutContract
         }
     }
 
-    override fun navigate() {
-        findNavController().navigate(R.id.action_tabLayoutFragment_to_mainFragment)
+    override fun navigate(username: String) {
+        findNavController().navigate(
+            R.id.action_tabLayoutFragment_to_mainFragment,
+            bundleOf("username" to username)
+        )
     }
 
     private fun FragmentRegisterBinding.bindView() {

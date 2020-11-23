@@ -3,7 +3,8 @@ package com.shvants.balinatestapp.util
 import android.graphics.Bitmap
 import android.util.Base64.DEFAULT
 import android.util.Base64.encodeToString
-import com.shvants.balinatestapp.data.repository.Image
+import com.shvants.balinatestapp.data.repository.MapImage
+import com.shvants.balinatestapp.data.repository.PhotoImage
 import com.shvants.database.data.model.ImageModel
 import com.shvants.network.data.entity.ImageDtoOut
 import java.io.ByteArrayOutputStream
@@ -25,11 +26,17 @@ fun ImageDtoOut.toDbModel() = ImageModel(
     lng = lng
 )
 
-fun ImageModel.toUiModel(locale: Locale) = Image(
+fun ImageModel.toPhotoModel(locale: Locale) = PhotoImage(
     id = id,
     url = url,
     date = date.convertToDate(locale)
 )
 
+fun ImageModel.toMapModel(locale: Locale) = MapImage(
+    title = date.convertToDate(locale),
+    lat = lat,
+    lng = lng
+)
+
 private fun Long.convertToDate(locale: Locale) =
-    SimpleDateFormat("dd.MM.yyyy", locale).format(Date(this))
+    SimpleDateFormat("dd.MM.yyyy", locale).format(Date(this * 1000))

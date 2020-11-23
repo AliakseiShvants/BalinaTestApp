@@ -11,7 +11,7 @@ interface TabLayoutContract {
             confirmPasswordError: String? = null
         )
 
-        fun navigate()
+        fun navigate(username: String)
     }
 
     interface Presenter : BasePresenter<View> {

@@ -1,11 +1,10 @@
 package com.shvants.balinatestapp.data.repository
 
-import android.util.Log
 import com.shvants.balinatestapp.util.toDbModel
-import com.shvants.balinatestapp.util.toUiModel
+import com.shvants.balinatestapp.util.toMapModel
+import com.shvants.balinatestapp.util.toPhotoModel
 import com.shvants.database.domain.ImageDAO
 import com.shvants.network.data.entity.ImageDtoIn
-import com.shvants.network.data.entity.ImageDtoOut
 import com.shvants.network.domain.ImageService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -18,58 +17,39 @@ class ImageRepository : KoinComponent {
     private val dao: ImageDAO by inject()
     private val service: ImageService by inject()
 
-    private var networkCache = mutableListOf<ImageDtoOut>()
     var hasMore = true
 
-//    suspend fun load(page: Int, locale: Locale): List<Image> {
-//        return withContext(Dispatchers.IO) {
-//            if (page == 1) {
-//                networkCache.clear()
-//                dao.deleteAll()
-//            }
-//
-//            val networkList: List<ImageDtoOut> = service.getImages(page).data
-//            networkCache.addAll(networkList)
-//
-//            dao.insertAll(networkList.map { it.toDbModel() })
-//            dao.getImages().map { it.toUiModel(locale) }
-//        }
-//    }
+    suspend fun saveImage(image: ImageDtoIn, locale: Locale): PhotoImage {
+        return withContext(Dispatchers.IO) {
+            val imageNetwork = service.saveImage(image).data
+            val dbModel = imageNetwork.toDbModel()
+            dao.save(dbModel)
 
-
-    suspend fun saveImage(image: ImageDtoIn) {
-        withContext(Dispatchers.IO) {
-            try {
-                val imageNetwork = service.saveImage(image).data
-                dao.save(imageNetwork.toDbModel())
-            } catch (e: Exception) {
-                Log.e("IMAGE", e.message)
-            }
+            dbModel.toPhotoModel(locale)
         }
     }
 
-    suspend fun loadFromDb(page: Int, locale: Locale): List<Image> {
+    suspend fun loadFromDb(page: Int, locale: Locale): List<PhotoImage> {
         return withContext(Dispatchers.IO) {
             var dbList = dao.getImages(page)
 
             if (dbList.isEmpty()) {
-                val networkList = loadFromNetwork(page)
+                val networkList = service.getImages(page).data
                 dao.insertAll(networkList.map { it.toDbModel() })
                 dbList = dao.getImages(page)
             }
 
             if (dbList.size < page * 10) hasMore = false
 
-            dbList.map { it.toUiModel(locale) }
+            dbList.map { it.toPhotoModel(locale) }
         }
     }
 
-    suspend fun loadFromNetwork(page: Int): List<ImageDtoOut> {
+    suspend fun loadAllFromDb(locale: Locale): List<MapImage> {
         return withContext(Dispatchers.IO) {
-            service.getImages(page).data
+            val dbList = dao.getAllImages()
 
+            dbList.map { it.toMapModel(locale) }
         }
     }
-
-
 }

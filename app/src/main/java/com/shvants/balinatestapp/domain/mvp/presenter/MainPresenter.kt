@@ -24,8 +24,8 @@ class MainPresenter : MainContract.Presenter, CoroutineScope {
     override fun navigationItemSelected(item: MenuItem, drawerLayout: DrawerLayout) {
         val fragment =
             if (item.itemId == R.id.nav_photos) PhotosFragment.INSTANCE else MapFragment.INSTANCE
-        view?.replaceFragment(fragment)
         view?.setCheckedItem(item)
+        view?.replaceFragment(fragment)
         drawerLayout.closeDrawer(GravityCompat.START)
     }
 }

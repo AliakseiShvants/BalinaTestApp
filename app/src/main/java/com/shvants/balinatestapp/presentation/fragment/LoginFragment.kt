@@ -2,6 +2,7 @@ package com.shvants.balinatestapp.presentation.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -14,7 +15,6 @@ import org.koin.core.KoinComponent
 class LoginFragment : Fragment(R.layout.fragment_login), LoginContract.View, KoinComponent {
 
     private val presenter: LoginContract.Presenter by inject()
-
     private val binding: FragmentLoginBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,8 +41,11 @@ class LoginFragment : Fragment(R.layout.fragment_login), LoginContract.View, Koi
         }
     }
 
-    override fun navigate() {
-        findNavController().navigate(R.id.action_tabLayoutFragment_to_mainFragment)
+    override fun navigate(username: String) {
+        findNavController().navigate(
+            R.id.action_tabLayoutFragment_to_mainFragment,
+            bundleOf("username" to username)
+        )
     }
 
     private fun FragmentLoginBinding.bindView() {

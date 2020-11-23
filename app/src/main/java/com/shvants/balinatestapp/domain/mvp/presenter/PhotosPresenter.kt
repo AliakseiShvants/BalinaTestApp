@@ -33,8 +33,8 @@ class PhotosPresenter(
 
     override fun saveImage(image: ImageDtoIn, page: Int, locale: Locale) {
         launch {
-            val image = imageRepository.saveImage(image, locale)
-            view?.addImage(image)
+            val response = imageRepository.saveImage(image, locale)
+            view?.addImage(response)
         }
     }
 }

@@ -13,11 +13,14 @@ object BuildVersion {
 object Libs {
     const val androidBuildTools = "com.android.tools.build:gradle:${Version.androidBuildTools}"
     const val appCompat = "androidx.appcompat:appcompat:${Version.appCompat}"
+    const val activityKtx = "androidx.activity:activity-ktx:${Version.appCompat}"
 
     const val coil = "io.coil-kt:coil:${Version.coil}"
     const val constraintLayout =
         "androidx.constraintlayout:constraintlayout:${Version.constraintLayout}"
     const val coreKtx = "androidx.core:core-ktx:${Version.coreKtx}"
+
+    const val fragmentKtx = "androidx.fragment:fragment-ktx:${Version.fragmentKtx}"
 
     const val googlePlayLocation =
         "com.google.android.gms:play-services-location:${Version.googlePlay}"
@@ -62,6 +65,7 @@ object Version {
     const val constraintLayout = "2.0.1"
     const val coreKtx = "1.3.1"
 
+    const val fragmentKtx = "1.3.0-beta02"
     const val googlePlay = "17.0.0"
 
     const val koin = "2.1.6"

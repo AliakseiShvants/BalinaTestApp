@@ -131,10 +131,7 @@ class PhotosFragment private constructor() : Fragment(), PhotosContract.View, Ko
 
         addFoto.setOnClickListener {
             when {
-                ContextCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED -> addLocationListener()
+                hasCameraPermission() -> addLocationListener()
                 shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION) -> {
                     //todo make info message
                 }
@@ -155,6 +152,12 @@ class PhotosFragment private constructor() : Fragment(), PhotosContract.View, Ko
             coordinate = Pair(it.latitude, it.longitude)
         }
     }
+
+    private fun hasCameraPermission() = ContextCompat.checkSelfPermission(
+        requireContext(),
+        Manifest.permission.CAMERA
+    ) == PackageManager.PERMISSION_GRANTED
+
 
     companion object {
         private val instance = PhotosFragment()

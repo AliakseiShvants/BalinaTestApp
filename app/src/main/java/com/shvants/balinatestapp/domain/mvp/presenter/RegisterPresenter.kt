@@ -14,11 +14,12 @@ class RegisterPresenter(
     override var view: TabLayoutContract.View? = null
 
     override fun execute(username: String, password: String) {
-        launch {
-            when (accountRepository.register(username, password)) {
-                is Result.Success -> view?.navigate(username)
-                is Result.Error -> view?.setError(Constant.Error.SIGN_UP_ALREADY_IN_USE)
-            }
-        }
+        view?.navigate(username)
+//        launch {
+//            when (accountRepository.register(username, password)) {
+//                is Result.Success -> view?.navigate(username)
+//                is Result.Error -> view?.setError(Constant.Error.SIGN_UP_ALREADY_IN_USE)
+//            }
+//        }
     }
 }

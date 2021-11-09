@@ -10,7 +10,7 @@ val databaseModule = module {
         Room.databaseBuilder(
             androidApplication(),
             AppDatabase::class.java,
-            "BALINA_TEST_APP"
+            "TEST_APP"
         )
             .fallbackToDestructiveMigration()
             .build()

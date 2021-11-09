@@ -7,9 +7,8 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -22,7 +21,7 @@ import com.shvants.balinatestapp.data.repository.PhotoImage
 import com.shvants.balinatestapp.databinding.FragmentPhotosBinding
 import com.shvants.balinatestapp.domain.adapter.ImageAdapter
 import com.shvants.balinatestapp.domain.mvp.contract.PhotosContract
-import com.shvants.balinatestapp.util.convertToString
+import com.shvants.balinatestapp.util.bitmapToString
 import com.shvants.network.data.entity.ImageDtoIn
 import org.koin.core.KoinComponent
 import org.koin.core.inject
@@ -36,6 +35,23 @@ class PhotosFragment private constructor() : Fragment(), PhotosContract.View, Ko
 
     private val imageAdapter = ImageAdapter()
     private val page = AtomicInteger(0)
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { entry ->
+        entry.forEach { (permission, flag) ->
+            if (permission == Manifest.permission.ACCESS_COARSE_LOCATION && flag) {
+                addLocationListener()
+            }
+        }
+
+        var isAllGranted = true
+
+        entry.values.forEach {
+            isAllGranted = isAllGranted && it
+        }
+
+        if (isAllGranted) makeFoto()
+    }
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locale: Locale
@@ -67,24 +83,13 @@ class PhotosFragment private constructor() : Fragment(), PhotosContract.View, Ko
         binding.bindView()
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        if (requestCode == 1
-            && grantResults.isNotEmpty()
-            && grantResults[0] == PackageManager.PERMISSION_GRANTED
-        ) addLocationListener()
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
             val imageBitmap = data?.extras?.get("data") as? Bitmap
 
             imageBitmap?.let {
                 val image = ImageDtoIn(
-                    base64Image = imageBitmap.convertToString(),
+                    base64Image = imageBitmap.bitmapToString(),
                     date = (System.currentTimeMillis() / 1000).toInt(),
                     lat = coordinate.first,
                     lng = coordinate.second
@@ -113,32 +118,36 @@ class PhotosFragment private constructor() : Fragment(), PhotosContract.View, Ko
             adapter = imageAdapter
             layoutManager = GridLayoutManager(requireContext(), 3)
             setHasFixedSize(true)
-            addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
+            addOnScrollListener(
+                object : RecyclerView.OnScrollListener() {
+                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                        super.onScrolled(recyclerView, dx, dy)
 
-                    val manager = layoutManager as GridLayoutManager
-                    val lastItem = manager.findLastCompletelyVisibleItemPosition()
-                    val totalCount = manager.itemCount
+                        val manager = layoutManager as GridLayoutManager
+                        val lastItem = manager.findLastCompletelyVisibleItemPosition()
+                        val totalCount = manager.itemCount
 
-                    if (totalCount <= lastItem + 3 && presenter.hasMore) presenter.loadImages(
-                        page.incrementAndGet(),
-                        locale
-                    )
+                        if (totalCount <= lastItem + 3 && presenter.hasMore) {
+                            presenter.loadImages(
+                                page = page.incrementAndGet(),
+                                locale = locale
+                            )
+                        }
+                    }
                 }
-            })
+            )
         }
 
         addFoto.setOnClickListener {
             when {
-                hasCameraPermission() -> addLocationListener()
-                shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION) -> {
-                    //todo make info message
-                }
-                else -> requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION), 1)
+                hasLocationPermission() && hasCameraPermission() -> makeFoto()
+                else -> requestPermissionLauncher.launch(
+                    arrayOf(
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.CAMERA
+                    )
+                )
             }
-
-            makeFoto()
         }
     }
 
@@ -156,6 +165,11 @@ class PhotosFragment private constructor() : Fragment(), PhotosContract.View, Ko
     private fun hasCameraPermission() = ContextCompat.checkSelfPermission(
         requireContext(),
         Manifest.permission.CAMERA
+    ) == PackageManager.PERMISSION_GRANTED
+
+    private fun hasLocationPermission() = ContextCompat.checkSelfPermission(
+        requireContext(),
+        Manifest.permission.ACCESS_COARSE_LOCATION
     ) == PackageManager.PERMISSION_GRANTED
 
 

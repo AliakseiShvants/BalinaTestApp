@@ -15,6 +15,6 @@ object Constant {
 
     object Range {
         val USERNAME_RANGE = 4..32
-        val PASSWORD_RANGE = 8..500
+        val PASSWORD_RANGE = 4..500
     }
 }

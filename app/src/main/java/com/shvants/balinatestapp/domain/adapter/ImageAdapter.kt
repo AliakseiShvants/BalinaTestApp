@@ -2,10 +2,13 @@ package com.shvants.balinatestapp.domain.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.shvants.balinatestapp.R
 import com.shvants.balinatestapp.data.repository.PhotoImage
 import com.shvants.balinatestapp.databinding.ViewImageItemBinding
+import com.shvants.balinatestapp.util.stringToBitmap
 
 class ImageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -50,9 +53,19 @@ class ImageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         fun bind(item: PhotoImage) {
             with(binding) {
-                imagePreview.load(item.url) {
-                    crossfade(true)
+                val img = item.url.stringToBitmap()
+
+                when {
+                    img != null -> imagePreview.setImageBitmap(img)
+                    else -> imagePreview.setImageResource(R.drawable.icon)
                 }
+
+
+//                imagePreview.load(item.url) {
+//                    crossfade(true)
+//                    placeholder(R.drawable.splash_logo)
+//                    error(R.drawable.icon)
+//                }
                 imageDate.text = item.date
             }
         }

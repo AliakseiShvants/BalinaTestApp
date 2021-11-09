@@ -21,8 +21,8 @@ class ImageRepository : KoinComponent {
 
     suspend fun saveImage(image: ImageDtoIn, locale: Locale): PhotoImage {
         return withContext(Dispatchers.IO) {
-            val imageNetwork = service.saveImage(image).data
-            val dbModel = imageNetwork.toDbModel()
+//            val imageNetwork = service.saveImage(image).data
+            val dbModel = image.toDbModel()
             dao.save(dbModel)
 
             dbModel.toPhotoModel(locale)
@@ -33,11 +33,11 @@ class ImageRepository : KoinComponent {
         return withContext(Dispatchers.IO) {
             var dbList = dao.getImages(page)
 
-            if (dbList.isEmpty()) {
-                val networkList = service.getImages(page).data
-                dao.insertAll(networkList.map { it.toDbModel() })
-                dbList = dao.getImages(page)
-            }
+//            if (dbList.isEmpty()) {
+//                val networkList = service.getImages(page).data
+//                dao.insertAll(networkList.map { it.toDbModel() })
+//                dbList = dao.getImages(page)
+//            }
 
             if (dbList.size < page * 10) hasMore = false
 

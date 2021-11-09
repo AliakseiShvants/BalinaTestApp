@@ -1,7 +1,7 @@
 object Android {
-    const val compileSdk = 29
-    const val minSdk = 23
-    const val targetSdk = 29
+    const val compileSdk = 30
+    const val minSdk = 24
+    const val targetSdk = 30
     const val toolsVersion = "30.0.2"
 }
 

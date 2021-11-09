@@ -22,11 +22,11 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         navMainController = navHostFragment.navController
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val mainFragment =
             supportFragmentManager.fragments[0].childFragmentManager.fragments[0] as MainFragment
 
-        if (item?.itemId == android.R.id.home) mainFragment.openDrawer()
+        if (item.itemId == android.R.id.home) mainFragment.openDrawer()
 
         return super.onOptionsItemSelected(item)
     }
